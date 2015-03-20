@@ -7,13 +7,15 @@ from sys import argv
 from random import randrange
 from primecounter import countprime
 
+
+pinmode = GPIO.BCM
 # List of output pins
 # The i'th element of this array represents the 2^i bit of our display
 outputpins = [4,17,27,22,10,9,11,14,15,18,23,24,25,8,7]
 buttonpin = 2
 
 # Set up the GPIO pins and binary counter
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(pinmode)
 GPIO.setwarnings(False)
 c = BinaryLEDCounter(outputpins)
 GPIO.setup(buttonpin,GPIO.IN)
