@@ -10,7 +10,7 @@ def isprime(x):
     elif (x%2==0):
         return False
     i=3
-    while i*i < x:
+    while i*i <= x:
         if x%i==0:
             return False
         i+=2
