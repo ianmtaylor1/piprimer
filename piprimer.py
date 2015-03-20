@@ -6,12 +6,14 @@ from binaryledcounter import BinaryLEDCounter
 from sys import argv
 from random import randrange
 from primecounter import countprime
+from threading import Thread, Lock
 
-
+# Mode that pin numberings will be in
 pinmode = GPIO.BCM
 # List of output pins
 # The i'th element of this array represents the 2^i bit of our display
 outputpins = [4,17,27,22,10,9,11,14,15,18,23,24,25,8,7]
+# Pin which is connected to the button, with a PULL UP resistor
 buttonpin = 2
 
 # Set up the GPIO pins and binary counter
@@ -30,10 +32,40 @@ else:
 c.setvalue(start)
 print("Start: {}".format(start))
 
-# Loop infinitely, counting to a new prime every time user hits enter
-x = start
-while True:
-    GPIO.wait_for_edge(buttonpin,GPIO.FALLING)
-    y = countprime(x+1,c,0.2)
-    print('{s} {d} {e}'.format(s=x,d='.'*(y-x-1),e=y))
-    x = y
+# Lock to keep threads from counting at the same time and global value
+counterlock = Lock()
+value = start
+
+# Function for thread that waits on button press
+def buttonwait():
+    global value
+    global c
+    while True:
+        GPIO.wait_for_edge(buttonpin,GPIO.FALLING)
+        with counterlock:
+            y = countprime(value+1,c,0.2)
+            print('{s} {d} {e}'.format(s=value,d='.'*(y-value-1),e=y))
+            value = y
+
+# Function for thread that waits on enter key
+def keyboardwait():
+    global value
+    global c
+    while True:
+        input()
+        with counterlock:
+            y = countprime(value+1,c,0.2)
+            print('{s} {d} {e}'.format(s=value,d='.'*(y-value-1),e=y))
+            value = y
+
+# Start all input threads, then wait to join
+threads = [Thread(target=buttonwait), Thread(target=keyboardwait)]
+for t in threads:
+    t.daemon=True
+    t.start()
+try:
+    for t in threads:
+        t.join()
+except KeyboardInterrupt:
+    print()
+
