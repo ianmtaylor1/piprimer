@@ -1,4 +1,3 @@
-from math import sqrt
 from time import sleep
 #from binaryledcounter import BinaryLEDCounter
 
@@ -10,13 +9,12 @@ def isprime(x):
         return True
     elif (x%2==0):
         return False
-    s = int(sqrt(x))
-    tocheck = range(3,s+1,2)
-    for i in tocheck:
+    i=3
+    while i*i < x:
         if x%i==0:
             return False
-    else:
-        return True
+        i+=2
+    return True
 
 def countprime(start,counter,delay):
     """Starting at the specified value, count and display numbers
