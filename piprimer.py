@@ -9,14 +9,14 @@ from primecounter import countprime
 from threading import Thread, Lock
 
 # Mode that pin numberings will be in
-pinmode = GPIO.BCM
+pinmode = GPIO.BOARD
 # List of output pins
 # The i'th element of this array represents the 2^i bit of our display
-outputpins = [4,17,27,22,10,9,11,14,15,18,23,24,25,8,7]
+outputpins = [7,8,10,11,12,13,15,16,18,19,21,22]
 # Pin which is connected to the button, with a PULL UP resistor
-buttonpin = 2
+buttonpin = 3
 # Speed at which the primer should count (numbers/second)
-speed = 5
+speed = 8
 
 # Set up the GPIO pins and binary counter
 GPIO.setmode(pinmode)
