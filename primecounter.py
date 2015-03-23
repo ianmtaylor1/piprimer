@@ -23,7 +23,10 @@ def countprime(start,counter,delay):
     specified BinaryLEDCounter."""
     x = start
     seenprime = False
+    m = counter.maxvalue()
     while not seenprime:
+        if x >= m:
+            x = 0
         counter.setvalue(x)
         if isprime(x):
             seenprime = True
