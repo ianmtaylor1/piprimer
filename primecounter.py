@@ -25,7 +25,7 @@ def countprime(start,counter,delay):
     seenprime = False
     m = counter.maxvalue()
     while not seenprime:
-        if x >= m:
+        if x > m:
             x = 0
         counter.setvalue(x)
         if isprime(x):
