@@ -32,7 +32,7 @@ def countprime(start,counter,delay):
             seenprime = True
         else:
             x += 1
-            sleep(delay)
+        sleep(delay)
     return x
 
 
