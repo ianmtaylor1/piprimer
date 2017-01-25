@@ -33,6 +33,7 @@ def countprime(start,counter,delay):
         else:
             x += 1
         sleep(delay)
+    sleep(delay)
     return x
 
 
